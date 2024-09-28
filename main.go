@@ -34,6 +34,7 @@ func main() {
 	router := gin.Default()
 	api.UserRoutes(router, q)
 	router.Use(api.Authorization())
+	api.FarmerRoutes(router, q)
 
 	log.Fatal(router.Run(":" + port))
 }

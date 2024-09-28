@@ -8,19 +8,19 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "farmers" (
-  "id" int PRIMARY KEY,
+  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "user_id" int
 );
 
 CREATE TABLE "buyers" (
-  "id" int PRIMARY KEY,
+  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "address" varchar(255),
   "payment_method" varchar(20),
   "user_id" int
 );
 
 CREATE TABLE "farms" (
-  "id" int PRIMARY KEY,
+  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "farmer_id" int,
   "address" varchar(255),
   "size" float,
@@ -28,7 +28,7 @@ CREATE TABLE "farms" (
 );
 
 CREATE TABLE "products" (
-  "id" int PRIMARY KEY,
+  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "name" varchar(100) NOT NULL,
   "farmer_id" int,
   "price" decimal(10,2) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE "products" (
 );
 
 CREATE TABLE "categories" (
-  "id" int PRIMARY KEY,
+  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "name" varchar(100) NOT NULL
 );
 

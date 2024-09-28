@@ -19,3 +19,9 @@ WHERE id = $1 LIMIT 1;
 SELECT *
 FROM users
 WHERE email = $1 LIMIT 1;
+
+-- name: UpdatePhoneNumber :one
+UPDATE users
+SET phone_number = $2
+WHERE id = $1
+RETURNING *;

@@ -89,3 +89,29 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 	)
 	return i, err
 }
+
+const updatePhoneNumber = `-- name: UpdatePhoneNumber :one
+UPDATE users
+SET phone_number = $2
+WHERE id = $1
+RETURNING id, name, email, hashed_password, phone_number, is_admin
+`
+
+type UpdatePhoneNumberParams struct {
+	ID          int32
+	PhoneNumber string
+}
+
+func (q *Queries) UpdatePhoneNumber(ctx context.Context, arg UpdatePhoneNumberParams) (User, error) {
+	row := q.db.QueryRow(ctx, updatePhoneNumber, arg.ID, arg.PhoneNumber)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.HashedPassword,
+		&i.PhoneNumber,
+		&i.IsAdmin,
+	)
+	return i, err
+}

@@ -35,6 +35,7 @@ func userResponse(user db.User) UserResponse {
 	}
 }
 
+// implement signupAsFarmer and signupAsBuyer functions
 func Signup(q *db.Queries) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req SignupRequest
@@ -118,5 +119,32 @@ func Login(q *db.Queries) gin.HandlerFunc {
 			AccessToken: accessToken,
 			User:        userResponse(user),
 		})
+	}
+}
+
+type UpdatePhoneNumberRequest struct {
+	PhoneNumber string
+}
+
+func UpdatePhoneNumber(q *db.Queries) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req UpdatePhoneNumberRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		authPayload := ctx.MustGet("authorization_payload").(*Payload)
+
+		user, err := q.UpdatePhoneNumber(ctx, db.UpdatePhoneNumberParams{
+			ID:          authPayload.UserID,
+			PhoneNumber: req.PhoneNumber,
+		})
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, userResponse(user))
 	}
 }

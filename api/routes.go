@@ -10,4 +10,10 @@ func UserRoutes(incomingRoutes *gin.Engine, q *db.Queries) {
 	incomingRoutes.POST("/login", Login(q))
 }
 
-// func BuyerRoutes()
+func FarmerRoutes(incomingRoutes *gin.Engine, q *db.Queries) {
+	incomingRoutes.POST("/farms", CreateFarm(q))
+	incomingRoutes.GET("/farms/:id", GetFarm(q))
+	incomingRoutes.GET("/farms", ListFarms(q))
+	incomingRoutes.PATCH("/farms/:id", UpdateFarm(q))
+	incomingRoutes.DELETE("/farms/:id", DeleteFarm(q))
+}
